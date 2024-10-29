@@ -1,1 +1,0 @@
-/* Estrutura das interfaces gráficas */
