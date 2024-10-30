@@ -20,3 +20,6 @@ obj/
 # Configurações do sistema
 .DS_Store
 Thumbs.db
+
+# ARQUIVOS DO VSCODE
+.vscode

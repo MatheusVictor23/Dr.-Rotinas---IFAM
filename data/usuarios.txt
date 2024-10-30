@@ -1,0 +1,3 @@
+@admin,rotinasdr01
+@meduser,med01
+@recepcao,recep01
