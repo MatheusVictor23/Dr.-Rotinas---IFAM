@@ -3,8 +3,8 @@
 
 #include <gtk/gtk.h>
 
-/* void telaAdmin(GtkBuilder *builder);
-void telaMedico(GtkBuilder *builder); */
+void telaAdmin(GtkBuilder *builder);
+void telaMedico(GtkBuilder *builder);
 void telaRecepcao(GtkBuilder *builder);
 
 #endif

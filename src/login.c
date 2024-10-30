@@ -4,28 +4,53 @@
 #include <gtk/gtk.h>
 #include "telas.h"
 
-#define MAX_USERS 3 
-#define MAX_LENGTH 32
-
-// Arrays de usuários e senhas cadastrados
-
-static char *usernames[MAX_USERS] = {"@admin", "@meduser", "@recepcao"};
-static char *senhas[MAX_USERS] = {"rotinasdr01", "med01", "recep01"};
-
+// Função que lê os usuários do arquivo de usuários e verifica se o login é válido
 GtkBuilder *builder;
 
-// Função que verifica se o login é válido
-
 int verificarLogin(const char *user, const char *senha) {
-
-    for(int i = 0; i < MAX_USERS; i++) {
-        if(strcmp(usernames[i], user) == 0 && strcmp(senhas[i], senha) == 0) {
-            return i; // login ok, e retorna o indice do usuario encontrado
-        }
+    FILE *usuarios = fopen("../data/usuarios.txt", "r");
+    if (usuarios == NULL) {
+        GtkWidget *dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Erro ao abrir o arquivo de usuários.");
+        gtk_dialog_run(GTK_DIALOG(dialog));
+        gtk_widget_destroy(dialog);
+        exit(1);
     }
+
+    char linha[100];
+    char *token;
+    int indexUsuario = 0;
+
+    while (fgets(linha, sizeof(linha), usuarios) != NULL) {
     
-    return -1; // login falhou
+        token = strtok(linha, ",");
+        if (token == NULL) {
+            continue;
+        } 
+    
+        char usuarioLimpo[50];
+        sscanf(token, "%s", usuarioLimpo); // token armazenado na string usuarioLimpo
+
+        token = strtok(NULL, ","); // proxima string apos o delimitador
+        if (token == NULL) {
+            continue; 
+        }
+
+        char senhaLimpa[50]; 
+        sscanf(token, "%s", senhaLimpa); // token armazenado na string senhaLimpa
+
+        if (strcmp(usuarioLimpo, user) == 0) {
+            if (strcmp(senhaLimpa, senha) == 0) {
+                fclose(usuarios);
+                return indexUsuario; // Retorna o índice do usuário se encontrado
+            }
+        }
+        indexUsuario++;
+    }
+
+    fclose(usuarios);
+    return -1; // retorna -1 se não encontrar o usuário ou a senha
 }
+
 
 void on_login_button_clicked(GtkButton *button, gpointer user_data) {
     GtkEntry *user = GTK_ENTRY(gtk_builder_get_object(builder, "user"));
@@ -37,12 +62,12 @@ void on_login_button_clicked(GtkButton *button, gpointer user_data) {
     int indexUsuario = verificarLogin(user_text, senha_text);
 
     switch(indexUsuario) {
-/*         case 0:
+        case 0:
             telaAdmin(builder);
             break;
         case 1:
             telaMedico(builder);
-            break; */
+            break;
         case 2:
             telaRecepcao(builder);
             break;
