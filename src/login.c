@@ -4,19 +4,19 @@
 #include <gtk/gtk.h>
 #include "telas.h"
 
-// Função que lê os usuários do arquivo de usuários e verifica se o login é válido
 GtkBuilder *builder;
 
 // prototipo da funcao que gerencia o click do botao de login
 void on_login_button_clicked(GtkButton *button, gpointer user_data);
 
+// Função que lê os usuários do arquivo de usuários e verifica se o login é válido
 int verificarLogin(const char *user, const char *senha) {
     FILE *usuarios = fopen("../data/usuarios.txt", "r");
     if (usuarios == NULL) {
         GtkWidget *dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Erro ao abrir o arquivo de usuários.");
         gtk_dialog_run(GTK_DIALOG(dialog));
         gtk_widget_destroy(dialog);
-        exit(1);
+        exit(1); // Abre a janela dialog e encerra o programa
     }
 
     char linha[100];
