@@ -1,7 +1,9 @@
 #include<gtk/gtk.h>
 #include<stdlib.h>
+#include "../include/gerenciarMedicos.h"
+#include "../include/login.h"
 
-GtkBuilder * builder;
+extern GtkBuilder *builder;
 GtkStack * stack;
 GtkListStore *medico;
 
@@ -32,8 +34,8 @@ user *proximo_user;
 //     gtk_widget_hide(mensagem_dialogo);
 // }
 
-void on_main_window_destroy(GtkWidget * widget, gpointer data){
-    gtk_main_quit();
+void on_main_window_destroy_medico(GtkWidget * widget, gpointer data){
+    iniciarLogin();
 };
 void on_main_cadastro_cadastrar_clicked(GtkWidget * widget, gpointer data){
     gtk_stack_set_visible_child_name(stack, "form_cadastro");
@@ -44,7 +46,7 @@ void on_main_cadastro_listar_clicked(GtkWidget * widget, gpointer data){
 void on_form_cadastro_cadastrar_clicked(GtkWidget * widget, gpointer data){
     
     FILE *medicos;
-    medicos = fopen("medicos.txt", "a");
+    medicos = fopen("../data/medicos.txt", "a");
     if (medicos == NULL) {
         g_print("Erro ao abrir o arquivo para gravação.\n");
         return;
@@ -78,7 +80,7 @@ void on_medico_listagem_back_clicked(GtkWidget * widget, gpointer data){
 };
 
 void on_medico_listagem_list_clicked(GtkWidget *widget, gpointer data) {
-    FILE *medicos = fopen("medicos.txt", "r");
+    FILE *medicos = fopen("../data/medicos.txt", "r");
     if (medicos == NULL) {
         g_print("Erro ao abrir o arquivo para leitura.\n");
         return;
@@ -106,20 +108,18 @@ void on_medico_listagem_list_clicked(GtkWidget *widget, gpointer data) {
 
 }
 
-int main(int argc, char **argv){
+void iniciarGerenciamentoMedico(){
 
     cabecalho_user = (user *)malloc(sizeof(user));
     cabecalho_user->proximo = NULL;
     proximo_user = cabecalho_user;
 
-    gtk_init(&argc, &argv);
-
-    builder = gtk_builder_new_from_file("cadastro_medico.glade");
+    builder = gtk_builder_new_from_file("../interface/tela_admin.glade");
 
     gtk_builder_add_callback_symbols(
         builder,
         "on_main_cadastro_cadastrar_clicked",       G_CALLBACK(on_main_cadastro_cadastrar_clicked),
-        "on_main_window_destroy",                   G_CALLBACK(on_main_window_destroy),
+        "on_main_window_destroy_medico",            G_CALLBACK(on_main_window_destroy_medico),
         "on_main_cadastro_listar_clicked",          G_CALLBACK(on_main_cadastro_listar_clicked),
         "on_form_cadastro_cadastrar_clicked",       G_CALLBACK(on_form_cadastro_cadastrar_clicked),
         "on_form_cadastro_cancelar_clicked",        G_CALLBACK(on_form_cadastro_cancelar_clicked),
@@ -136,7 +136,5 @@ int main(int argc, char **argv){
 
     gtk_widget_show_all(window);
 
-    gtk_main();
-
-    return 0;
+   
 }

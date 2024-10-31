@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include "../include/login.h"
 #include "../include/telas.h"
+#include "../include/gerenciarMedicos.h"
 #include <locale.h>
 
 int main(int argc, char *argv[]) {
