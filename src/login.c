@@ -3,11 +3,14 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include "telas.h"
+#include "gerenciarMedicos.h"
+#include "login.h"
 
 GtkBuilder *builder;
 
-// prototipo da funcao que gerencia o click do botao de login
-void on_login_button_clicked(GtkButton *button, gpointer user_data);
+void on_main_window_destroy(GtkWidget * widget, gpointer data){
+    gtk_main_quit();
+};
 
 // Função que lê os usuários do arquivo de usuários e verifica se o login é válido
 int verificarLogin(const char *user, const char *senha) {
@@ -64,6 +67,8 @@ void iniciarLogin() {
     GtkButton *login_button = GTK_BUTTON(gtk_builder_get_object(builder, "login_button"));
 
     g_signal_connect(login_button, "clicked", G_CALLBACK(on_login_button_clicked), window);
+    g_signal_connect(window, "destroy", G_CALLBACK(on_main_window_destroy), NULL);
+
 
     // Exibe a janela de login
 
@@ -86,15 +91,15 @@ void on_login_button_clicked(GtkButton *button, gpointer user_data) {
 
     switch(indexUsuario) {
         case 0:
-            gtk_widget_destroy(login_window);
-            telaAdmin(builder);
+            gtk_widget_hide(login_window);
+            iniciarGerenciamentoMedico();
             break;
         case 1:
-            gtk_widget_destroy(login_window);
+            gtk_widget_hide(login_window);
             telaMedico(builder);
             break;
         case 2:
-            gtk_widget_destroy(login_window);
+            gtk_widget_hide(login_window);
             telaRecepcao(builder);
             break;
         default:
