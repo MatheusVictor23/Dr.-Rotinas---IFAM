@@ -5,6 +5,7 @@
   <object class="GtkWindow" id="tela_recepcao">
     <property name="name">tela_recepcao</property>
     <property name="can-focus">False</property>
+    <signal name="destroy" handler="on_tela_recepcao_destroy" swapped="no"/>
     <child>
       <object class="GtkBox">
         <property name="width-request">200</property>
