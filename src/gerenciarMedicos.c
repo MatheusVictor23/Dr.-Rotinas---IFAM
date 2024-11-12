@@ -2,8 +2,9 @@
 #include<stdlib.h>
 #include "../include/gerenciarMedicos.h"
 #include "../include/login.h"
+#include "../include/menu.h"
 
-extern GtkBuilder *builder;
+GtkBuilder *builder_medico_admin;
 GtkStack * stack;
 GtkListStore *medico;
 
@@ -22,7 +23,7 @@ user *cabecalho_user;
 user *proximo_user;
 
 // void mensagem(char text[100], char secondary_text[100], char icon_name[100]){
-//     GtkMessageDialog * mensagem_dialogo = gtk_builder_get_object(builder, "mensagem");
+//     GtkMessageDialog * mensagem_dialogo = gtk_builder_get_object(_medico_admin, "mensagem");
 
 //     g_object_set(mensagem_dialogo, "text", text, NULL);
 //     g_object_set(mensagem_dialogo, "secondary_text", secondary_text, NULL);
@@ -35,7 +36,7 @@ user *proximo_user;
 // }
 
 void on_main_window_destroy_medico(GtkWidget * widget, gpointer data){
-    iniciarLogin();
+    iniciarMenu();
 };
 void on_main_cadastro_cadastrar_clicked(GtkWidget * widget, gpointer data){
     gtk_stack_set_visible_child_name(stack, "form_cadastro");
@@ -52,16 +53,16 @@ void on_form_cadastro_cadastrar_clicked(GtkWidget * widget, gpointer data){
         return;
     }
 
-    GtkEntry *cad_nome = GTK_ENTRY(gtk_builder_get_object(builder, "form_cadastro_nome"));
+    GtkEntry *cad_nome = GTK_ENTRY(gtk_builder_get_object(builder_medico_admin, "form_cadastro_nome"));
     const char *medico_nome = gtk_entry_get_text(cad_nome);
 
-    GtkEntry *cad_email = GTK_ENTRY(gtk_builder_get_object(builder, "form_cadastro_email"));
+    GtkEntry *cad_email = GTK_ENTRY(gtk_builder_get_object(builder_medico_admin, "form_cadastro_email"));
     const char *medico_email = gtk_entry_get_text(cad_email);
 
-    GtkEntry *cad_telefone = GTK_ENTRY(gtk_builder_get_object(builder, "form_cadastro_telefone"));
+    GtkEntry *cad_telefone = GTK_ENTRY(gtk_builder_get_object(builder_medico_admin, "form_cadastro_telefone"));
     const char *medico_telefone = gtk_entry_get_text(cad_telefone);
 
-    GtkEntry *cad_CRM = GTK_ENTRY(gtk_builder_get_object(builder, "form_cadastro_CRM"));
+    GtkEntry *cad_CRM = GTK_ENTRY(gtk_builder_get_object(builder_medico_admin, "form_cadastro_CRM"));
     const char *medico_CRM = gtk_entry_get_text(cad_CRM);
 
     fprintf(medicos, "Nome:%s\nEmail:%s\nTelefone:%s\nCRM:%s\n",
@@ -114,10 +115,10 @@ void iniciarGerenciamentoMedico(){
     cabecalho_user->proximo = NULL;
     proximo_user = cabecalho_user;
 
-    builder = gtk_builder_new_from_file("../interface/tela_admin.glade");
+    builder_medico_admin = gtk_builder_new_from_file("../interface/tela_admin.glade");
 
     gtk_builder_add_callback_symbols(
-        builder,
+        builder_medico_admin,
         "on_main_cadastro_cadastrar_clicked",       G_CALLBACK(on_main_cadastro_cadastrar_clicked),
         "on_main_window_destroy_medico",            G_CALLBACK(on_main_window_destroy_medico),
         "on_main_cadastro_listar_clicked",          G_CALLBACK(on_main_cadastro_listar_clicked),
@@ -128,11 +129,11 @@ void iniciarGerenciamentoMedico(){
         NULL
     );
 
-    gtk_builder_connect_signals(builder,NULL);
+    gtk_builder_connect_signals(builder_medico_admin,NULL);
 
-    stack = GTK_STACK(gtk_builder_get_object(builder, "stack"));
-    medico = GTK_LIST_STORE(gtk_builder_get_object(builder, "liststore1"));
-    GtkWidget *window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+    stack = GTK_STACK(gtk_builder_get_object(builder_medico_admin, "stack"));
+    medico = GTK_LIST_STORE(gtk_builder_get_object(builder_medico_admin, "liststore1"));
+    GtkWidget *window = GTK_WIDGET(gtk_builder_get_object(builder_medico_admin, "main_window"));
 
     gtk_widget_show_all(window);
 

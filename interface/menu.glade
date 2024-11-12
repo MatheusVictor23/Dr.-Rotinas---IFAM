@@ -51,7 +51,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_clicked_recep" swapped="no"/>
+                <signal name="clicked" handler="on_recep_clicked" swapped="no"/>
                 <style>
                   <class name="recep_btn"/>
                 </style>
@@ -68,7 +68,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_clicked_medico" swapped="no"/>
+                <signal name="clicked" handler="on_medico_clicked" swapped="no"/>
                 <style>
                   <class name="med_btn"/>
                 </style>
@@ -112,7 +112,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <signal name="clicked" handler="on_clicked_admin" swapped="no"/>
+                <signal name="clicked" handler="on_admin_clicked" swapped="no"/>
                 <style>
                   <class name="admin_btn"/>
                 </style>
