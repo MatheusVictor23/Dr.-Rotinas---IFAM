@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtk.h>
-#include "telas.h"
-#include "gerenciarMedicos.h"
-#include "login.h"
+#include "../include/telas.h"
+#include "../include/gerenciarMedicos.h"
+#include "../include/login.h"
 
 GtkBuilder *builder;
 
