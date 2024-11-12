@@ -47,7 +47,7 @@
   </object>
   <object class="GtkWindow" id="main_window">
     <property name="width-request">825</property>
-    <property name="height-request">40</property>
+    <property name="height-request">600</property>
     <property name="can-focus">False</property>
     <property name="title" translatable="yes">Cadastro médico</property>
     <property name="icon">../../../Downloads\Dr.Rotinas_resized (1).png</property>
@@ -65,7 +65,7 @@
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="pixbuf">../../../Downloads\Dr.Rotinas_resized (1).png</property>
+                <property name="pixbuf">../logo-png.png</property>
               </object>
               <packing>
                 <property name="expand">False</property>

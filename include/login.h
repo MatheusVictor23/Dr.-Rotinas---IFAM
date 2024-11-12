@@ -1,7 +1,10 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#define MAX_LENGTH 32
+typedef struct {
+    char usuario[50];
+    char senha[50];
+} Usuario;
 
 // Declaração das funções de login
 int verificarLogin(const char *user, const char *senha);

@@ -14,7 +14,7 @@ void on_main_window_destroy(GtkWidget * widget, gpointer data){
 
 // Função que lê os usuários do arquivo de usuários e verifica se o login é válido
 int verificarLogin(const char *user, const char *senha) {
-    FILE *usuarios = fopen("../data/usuarios.txt", "r");
+    FILE *usuarios = fopen("../data/usuarios.bin", "rb");
     if (usuarios == NULL) {
         GtkWidget *dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Erro ao abrir o arquivo de usuários.");
         gtk_dialog_run(GTK_DIALOG(dialog));
@@ -22,30 +22,14 @@ int verificarLogin(const char *user, const char *senha) {
         exit(1); // Abre a janela dialog e encerra o programa
     }
 
-    char linha[100];
-    char *token;
+    printf("arquivo binario deu certo");
+
+    Usuario usuario;
     int indexUsuario = 0;
 
-    while (fgets(linha, sizeof(linha), usuarios) != NULL) {
-    
-        token = strtok(linha, ",");
-        if (token == NULL) {
-            continue;
-        } 
-    
-        char usuarioLimpo[50];
-        sscanf(token, "%s", usuarioLimpo); // token armazenado na string usuarioLimpo
-
-        token = strtok(NULL, ","); // proxima string apos o delimitador
-        if (token == NULL) {
-            continue; 
-        }
-
-        char senhaLimpa[50]; 
-        sscanf(token, "%s", senhaLimpa); // token armazenado na string senhaLimpa
-
-        if (strcmp(usuarioLimpo, user) == 0) {
-            if (strcmp(senhaLimpa, senha) == 0) {
+    while (fread(&usuario, sizeof(Usuario), 1, usuarios)) {
+        if (strcmp(usuario.usuario, user) == 0) {
+            if (strcmp(usuario.senha, senha) == 0) {
                 fclose(usuarios);
                 return indexUsuario; // Retorna o índice do usuário se encontrado
             }
