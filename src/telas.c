@@ -1,6 +1,6 @@
 #include <gtk/gtk.h>
 #include "../include/login.h"
-#include "telas.h"
+#include "../include/telas.h"
 #include "../include/menu.h"
 
 void on_tela_recepcao_destroy(GtkWidget *widget, gpointer data) {

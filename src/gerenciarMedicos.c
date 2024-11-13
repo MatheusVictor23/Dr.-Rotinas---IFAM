@@ -1,5 +1,7 @@
-#include<gtk/gtk.h>
-#include<stdlib.h>
+#include <gtk/gtk.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 #include "../include/gerenciarMedicos.h"
 #include "../include/login.h"
 #include "../include/menu.h"
