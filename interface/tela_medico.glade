@@ -4,6 +4,8 @@
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkWindow" id="tela_medico">
     <property name="name">tela_medico</property>
+    <property name="width-request">800</property>
+    <property name="height-request">600</property>
     <property name="can-focus">False</property>
     <signal name="destroy" handler="on_tela_medico_destroy" swapped="no"/>
     <child>
