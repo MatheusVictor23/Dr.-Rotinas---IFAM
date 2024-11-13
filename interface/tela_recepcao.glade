@@ -51,6 +51,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="cadastrar_paciente_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -64,6 +65,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="listar_pacientes_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -77,6 +79,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="agendar_consultas_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -90,6 +93,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <signal name="clicked" handler="ver_consultas_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>

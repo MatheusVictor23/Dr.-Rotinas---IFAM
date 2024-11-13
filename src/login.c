@@ -11,6 +11,8 @@ GtkBuilder *builder_login;
 int cargoAtual;
 
 void on_login_window_destroy(GtkWidget * widget, gpointer data){
+    // liberar o builder e sair do loop principal
+    g_object_unref(builder_login);
     gtk_main_quit();
 };
 
