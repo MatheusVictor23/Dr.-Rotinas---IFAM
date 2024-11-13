@@ -13,7 +13,7 @@ int cargoAtual;
 void on_login_window_destroy(GtkWidget * widget, gpointer data){
     // liberar o builder e sair do loop principal
     g_object_unref(builder_login);
-    gtk_main_quit();
+    iniciarMenu();
 };
 
 // Função que lê os usuários do arquivo de usuários e verifica se o login é válido

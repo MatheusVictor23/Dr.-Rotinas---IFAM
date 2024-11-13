@@ -36,7 +36,7 @@ void iniciarLoginComCargo(int cargo) {
 }
 
 void on_recep_clicked(GtkButton *button, gpointer user_data) {
-    g_print("botao recepcionista clicado\n");
+    g_message("botao recepcionista clicado\n");
     iniciarLoginComCargo(2); // 2 para recepcionista
 
     // esconder a janela de menu
@@ -45,7 +45,7 @@ void on_recep_clicked(GtkButton *button, gpointer user_data) {
 }
 
 void on_medico_clicked(GtkButton *button, gpointer user_data) {
-    g_print("botao medico clicado\n");
+    g_message("botao medico clicado\n");
     iniciarLoginComCargo(1); // 1 para medico
 
     // esconder a janela de menu
@@ -54,7 +54,7 @@ void on_medico_clicked(GtkButton *button, gpointer user_data) {
 }
 
 void on_admin_clicked(GtkButton *button, gpointer user_data) {
-    g_print("botao administrador clicado\n");
+    g_message("botao administrador clicado\n");
     iniciarLoginComCargo(0); // 0 para admin
 
     // esconder a janela de menu
