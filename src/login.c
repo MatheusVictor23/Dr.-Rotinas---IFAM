@@ -17,7 +17,7 @@ void on_login_window_destroy(GtkWidget * widget, gpointer data){
 };
 
 // Função que lê os usuários do arquivo de usuários e verifica se o login é válido
-int verificarLogin(const char *user, const char *senha) {
+int verificarLogin(const char *user, const char *senha, int cargoAtual) {
     FILE *usuarios = fopen("../data/usuarios.bin", "rb");
     if (usuarios == NULL) {
         GtkWidget *dialog = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Erro ao abrir o arquivo de usuários.");
@@ -26,29 +26,31 @@ int verificarLogin(const char *user, const char *senha) {
         return -1; // retorna -1 se não conseguir abrir o arquivo
     }
 
-    printf("arquivo binario deu certo\n");
+    g_message("arquivo binario deu certo\n");
 
     Usuario usuario;
-    int indexUsuario = 0;
 
     while (fread(&usuario, sizeof(Usuario), 1, usuarios)) {
         if (strcmp(usuario.usuario, user) == 0) {
             if (strcmp(usuario.senha, senha) == 0) {
-                fclose(usuarios);
-                return indexUsuario; // Retorna o índice do usuário se encontrado
+                if(cargoAtual == usuario.cargo) {
+                    return 1; // retorna 1 se tudo tiver ok
+                    fclose(usuarios);
+                }
+                
             }
-        }
-        indexUsuario++;
+        }    
     }
 
     fclose(usuarios);
     return -1; // retorna -1 se não encontrar o usuário ou a senha
+    g_message("erro na funcao verificarLogin\n");
 }
 
 // Função que inicia a tela de login
 
-void iniciarLogin(int cargo) {
-    cargoAtual = cargo;
+void iniciarLogin(int cargoSelecionado) {
+    cargoAtual = cargoSelecionado;
 
     printf("cargo atual: %d\n", cargoAtual);
 
@@ -78,9 +80,10 @@ void on_login_button_clicked(GtkButton *button, gpointer user_data) {
     const char *user_text = gtk_entry_get_text(user);
     const char *senha_text = gtk_entry_get_text(senha);
 
-    int indexUsuario = verificarLogin(user_text, senha_text);
+    int index = verificarLogin(user_text, senha_text, cargoAtual);
 
-    switch(indexUsuario) {
+    if(index == 1) {
+        switch(cargoAtual) {
         case 0:
             gtk_widget_hide(login_window);
             iniciarGerenciamentoMedico();
@@ -93,11 +96,13 @@ void on_login_button_clicked(GtkButton *button, gpointer user_data) {
             gtk_widget_hide(login_window);
             telaRecepcao(builder_login);
             break;
-        default:
-            GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(user_data), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR, GTK_BUTTONS_OK, "Falha no login. Verifique se o usuário e senha estão corretos.");
-            gtk_dialog_run(GTK_DIALOG(dialog));
-            gtk_widget_destroy(dialog);
-            break;
+         }
+    }
+
+    else {
+        GtkWidget *dialog = gtk_message_dialog_new(GTK_WINDOW(user_data), GTK_DIALOG_MODAL, GTK_MESSAGE_ERROR,    GTK_BUTTONS_OK, "Falha no login. Verifique se o usuário, senha e cargo selecionado estão corretos.");
+        gtk_dialog_run(GTK_DIALOG(dialog));
+        gtk_widget_destroy(dialog);
     }
     
 }
