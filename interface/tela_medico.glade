@@ -4,41 +4,94 @@
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkWindow" id="tela_medico">
     <property name="name">tela_medico</property>
+    <property name="width-request">800</property>
+    <property name="height-request">600</property>
     <property name="can-focus">False</property>
     <signal name="destroy" handler="on_tela_medico_destroy" swapped="no"/>
     <child>
-      <object class="GtkBox">
-        <property name="width-request">200</property>
-        <property name="height-request">200</property>
+      <object class="GtkBox" id="menu_medico">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="halign">center</property>
-        <property name="valign">center</property>
         <property name="orientation">vertical</property>
-        <child>
-          <placeholder/>
-        </child>
         <child>
           <object class="GtkLabel">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="halign">center</property>
-            <property name="valign">center</property>
-            <property name="margin-top">12</property>
-            <property name="margin-bottom">10</property>
-            <property name="label" translatable="yes">Bem vindo, medico!</property>
+            <property name="label" translatable="yes">Dr. Rotinas - Médicos</property>
             <attributes>
-              <attribute name="font-desc" value="Sans Bold 20"/>
+              <attribute name="font-desc" value="Sans-Serif 25"/>
+              <attribute name="weight" value="bold"/>
+              <attribute name="variant" value="normal"/>
             </attributes>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="padding">60</property>
+            <property name="position">0</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkButtonBox">
+            <property name="width-request">200</property>
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">center</property>
+            <property name="hexpand">True</property>
+            <property name="orientation">vertical</property>
+            <property name="spacing">10</property>
+            <property name="layout-style">center</property>
+            <child>
+              <object class="GtkButton">
+                <property name="label" translatable="yes">Ver consultas</property>
+                <property name="width-request">200</property>
+                <property name="height-request">50</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">10</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton">
+                <property name="label" translatable="yes">Dados de pacientes</property>
+                <property name="width-request">200</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton">
+                <property name="label" translatable="yes">Histórico de consultas</property>
+                <property name="width-request">200</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">90</property>
+            <property name="position">1</property>
+          </packing>
         </child>
       </object>
     </child>

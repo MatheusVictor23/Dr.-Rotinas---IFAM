@@ -1,9 +1,10 @@
 #include <gtk/gtk.h>
 #include "../include/login.h"
-#include "telas.h"
+#include "../include/telas.h"
+#include "../include/menu.h"
 
 void on_tela_recepcao_destroy(GtkWidget *widget, gpointer data) {
-    iniciarLogin();
+    iniciarMenu();
 }
 
 void telaRecepcao(GtkBuilder *builder) {
@@ -14,7 +15,7 @@ void telaRecepcao(GtkBuilder *builder) {
 }
 
 void on_tela_medico_destroy(GtkWidget *widget, gpointer data) {
-    iniciarLogin(); 
+    iniciarMenu(); 
 }
 
 void telaMedico(GtkBuilder *builder) {
@@ -24,8 +25,8 @@ void telaMedico(GtkBuilder *builder) {
     gtk_widget_show_all(tela_medico);
 }
 
-void telaAdmin(GtkBuilder *builder) {
+/* void telaAdmin(GtkBuilder *builder) {
     builder = gtk_builder_new_from_file("../interface/tela_admin.glade");
     GtkWidget *tela_admin = GTK_WIDGET(gtk_builder_get_object(builder, "tela_admin"));
     gtk_widget_show_all(tela_admin);
-}
+} */
