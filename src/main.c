@@ -1,8 +1,8 @@
-#include <gtk/gtk.h>
-#include "../include/login.h"
-#include "../include/telas.h"
-#include "../include/gerenciarMedicos.h"
-#include "../include/menu.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <login.h>
+
 
 void testeDadosBin() {
     // Dados a serem escritos no arquivo
@@ -15,7 +15,7 @@ void testeDadosBin() {
     // Abrindo o arquivo binário para escrita no caminho especificado
     FILE *arquivo = fopen("../data/usuarios.bin", "wb");
     if (arquivo == NULL) {
-        g_message("Erro ao abrir o arquivo");
+        printf("Erro ao abrir o arquivo");
         return;
     }
 
@@ -26,7 +26,6 @@ void testeDadosBin() {
     // Fechando o arquivo
     fclose(arquivo);
 
-    g_message("Dados escritos com sucesso no arquivo binário.\n");
 }
 
 int main(int argc, char *argv[]) {
