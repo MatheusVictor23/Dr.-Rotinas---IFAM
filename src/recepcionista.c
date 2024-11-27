@@ -8,6 +8,7 @@ typedef struct {
     int id;
     char nome[50];
     char telefone[15];
+    char cargo[20];
 } Recepcionista;
 
 void menuRecepcionistas() {

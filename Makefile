@@ -5,7 +5,7 @@ TARGET = $(TARGET_DIR)/main
 # Fonte do programa
 SRC_DIR = src
 INCLUDE_DIR = include
-SOURCES = $(SRC_DIR)/main.c  $(SRC_DIR)/login.c
+SOURCES = $(SRC_DIR)/main.c $(SRC_DIR)/admin.c $(SRC_DIR)/medicos.c $(SRC_DIR)/recepcionista.c
 
 # Compilador e flags
 CC = gcc

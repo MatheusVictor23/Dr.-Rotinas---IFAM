@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/login.h"
+#include "../include/admin.h"
 
 int main(int argc, char *argv[]) {
 
-    inserir_usuarios_de_teste();
-    menu();
-    
+   menuPrincipal();
+ 
     return 0;
 }
 

@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "medicos.h"
+#include "../include/medicos.h"
 
 typedef struct {
     int id;
     char nome[50];
     char especialidade[50];
     char CRM[20];
+    char cargo[20];
 } Medico;
 
 void menuMedicos() {
-    int opcao;
+    int op;
     do {
 
     system("cls || clear");

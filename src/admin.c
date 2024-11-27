@@ -58,8 +58,3 @@ void menuPrincipal(){
     } while (op != 0);
 
 }
-
-int main() {
-    menuPrincipal();
-    return 0;
-}

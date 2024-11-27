@@ -5,7 +5,7 @@
 
 typedef struct _user Usuario;
 
-void menu();
+void menuPrincipal();
 
 void finalizar();
 
