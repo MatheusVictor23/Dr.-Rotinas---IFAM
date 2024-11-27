@@ -9,8 +9,8 @@ SOURCES = $(SRC_DIR)/main.c  $(SRC_DIR)/login.c
 
 # Compilador e flags
 CC = gcc
-CFLAGS = `pkg-config --cflags gtk+-3.0` -I$(INCLUDE_DIR)
-LDFLAGS = `pkg-config --libs gtk+-3.0`
+# CFLAGS = `pkg-config --cflags gtk+-3.0` -I$(INCLUDE_DIR)
+# LDFLAGS = `pkg-config --libs gtk+-3.0`
 
 # Regra padrão
 all: $(TARGET)

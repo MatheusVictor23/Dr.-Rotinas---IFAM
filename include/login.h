@@ -1,31 +1,22 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-typedef enum {
-    ADMIN = 0,
-    MEDICO = 1,
-    RECEPCIONISTA = 2
-} Cargo;
+// typedef enum {
+//     ADMIN = 0,
+//     MEDICO = 1,
+//     RECEPCIONISTA = 2
+// } Cargo;
 
-typedef struct {
-    char usuario[50];
-    char senha[50];
-    Cargo cargo;
-} Usuario;
+typedef struct _user Usuario;
 
 void menu();
 
-int login(int opcao_escolhida){
+void finalizar();
 
-    // abre o arquivo binário para leitura
-    FILE *fp = fopen("../data/usuarios.bin", "rb");
+void inserir_usuarios_de_teste();
 
-    if(fp == NULL){
-        puts("Erro ao abrir o arquivo!");
-        exit(EXIT_FAILURE);
-    }
+int verificar_login(const char *usuario, const char *senha, const char *cargo);
 
-
-}
+void fazer_login(char *cargo_escolhido);
 
 #endif
