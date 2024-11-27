@@ -4,16 +4,62 @@
 #include <stdbool.h>
 #include "../include/login.h"
 
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include <termios.h>
+#include <unistd.h>
+#endif
+
 typedef struct _user{
     char username[50];
     char senha[50];
     char cargo[20];
 }Usuario;
 
+// Função para capturar senha com asteriscos
+void ler_senha(char *senha) {
+    int i = 0;
+#ifdef _WIN32
+    char ch;
+    while ((ch = _getch()) != '\r') { // '\r' é o Enter no Windows
+        if (ch == 8) {  // Backspace
+            if (i > 0) {
+                i--;
+                printf("\b \b"); // Apaga o asterisco
+            }
+        } else {
+            senha[i++] = ch;
+            printf("*");
+        }
+    }
+    senha[i] = '\0'; // Finaliza a string
+#else
+    struct termios oldt, newt;
+    int ch;
+
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+
+    while ((ch = getchar()) != '\n' && i < 49) { // Limita a 49 caracteres
+        senha[i++] = ch;
+        putchar('*');
+    }
+        senha[i] = '\0'; // Finaliza a string
+        printf("\n");
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    #endif
+}
+
+
+
 // pra controle de tela
 void finalizar() {
     puts("Pressione <ENTER> para finalizar.");
-    getchar();
+    
     getchar();
     
 }
@@ -47,7 +93,7 @@ void inserir_usuarios_de_teste() {
 }
 
 // depois que o usuario escolhe o cargo e insere as credenciais.
-int verificar_login(const char *usuario, const char *senha, const char *cargo_escolhido){
+bool verificar_login(const char *usuario, const char *senha, const char *cargo_escolhido){
         FILE *fp = fopen("../data/usuarios.bin", "rb");
         if(fp == NULL){
                 printf("Erro ao abrir o arquivo!\n");
@@ -82,8 +128,10 @@ void fazer_login(char *cargo_escolhido) {
         printf("Digite o nome de usuário: ");
         scanf("%s", usuario);
 
+        getchar();
+
         printf("Digite a senha: ");
-        scanf("%s", senha);
+        ler_senha(senha);
 
         if(verificar_login(usuario, senha, cargo_escolhido)){
                 if(strcmp(cargo_escolhido, "admin") == 0) {
