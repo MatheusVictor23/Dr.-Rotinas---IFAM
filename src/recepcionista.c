@@ -79,7 +79,7 @@ void cadastrarRecepcionista() {
 void listarRecepcionistas() {
     if (listaRecepcionistas == NULL) {
         printf("\nNenhum recepcionista cadastrado.\n");
-        return;
+        
     }
 
     printf("\n--- Lista de Recepcionistas ---\n");
@@ -99,17 +99,26 @@ void listarRecepcionistas() {
         printf("\n\n 1- Retornar\n");
         scanf("%d",&op);
     }while(op != 1);
+    return;
 }
 
 
 void excluirRecepcionista() {
     int id;
-    printf("Digite o ID do recepcionista a ser excluido: ");
-    scanf("%d",&id);
+    int op = 0;
 
     if (!listaRecepcionistas) {
         printf("Nenhum recepcionista cadastrado.\n");
+        do{
+        printf("\n\n 1- Retornar: ");
+        scanf("%d",&op);
+    }while(op != 1);
+    return ;
+        
     }
+
+    printf("Digite o ID do recepcionista a ser excluido: ");
+    scanf("%d",&id);
 
     Recepcionista *atual = listaRecepcionistas;
     Recepcionista *anterior = NULL;
@@ -123,6 +132,11 @@ void excluirRecepcionista() {
     // Verificar se o médico foi encontrado
     if (!atual) {
         printf("Recepcionista com ID %d não encontrado.\n", id);
+        do{
+        printf("\n\n 1- Retornar: ");
+        scanf("%d",&op);
+    }while(op != 1);
+    return ;
     }
 
     // Remover o médico da lista
@@ -153,10 +167,10 @@ void excluirRecepcionista() {
     fwrite(&ultimoIdRecepcionista, sizeof(int), 1, arquivo); // Salva o último ID
     fclose(arquivo);
     do{
-        printf("\n\n 1- Retornar\n");
+        printf("\n\n 1- Retornar: ");
         scanf("%d",&op);
     }while(op != 1);
-    return 0;
+    return ;
 }
 
 

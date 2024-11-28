@@ -107,12 +107,19 @@ void listarMedicos() {
 
 void excluirMedico() {
     int id;
-    printf("Digite o ID do medico a ser excluido: ");
-    scanf("%d",&id);
+    int op = 0;
 
     if (!listaMedicos) {
         printf("Nenhum medico cadastrado.\n");
+        do{
+        printf("\n\n 1- Retornar: ");
+        scanf("%d",&op);
+    }while(op != 1);
+    return ;
     }
+
+    printf("Digite o ID do medico a ser excluido: ");
+    scanf("%d",&id);
 
     Medico *atual = listaMedicos;
     Medico *anterior = NULL;
@@ -126,6 +133,11 @@ void excluirMedico() {
     // Verificar se o medico foi encontrado
     if (!atual) {
         printf("Medico com ID %d nao encontrado.\n", id);
+        do{
+        printf("\n\n 1- Retornar: ");
+        scanf("%d",&op);
+    }while(op != 1);
+    return ;
     }
 
     // Remover o medico da lista
@@ -156,10 +168,10 @@ void excluirMedico() {
     fwrite(&ultimoIdMedico, sizeof(int), 1, arquivo); // Salva o último ID
     fclose(arquivo);
     do{
-        printf("\n\n 1- Retornar\n");
+        printf("\n\n 1- Retornar: ");
         scanf("%d",&op);
     }while(op != 1);
-    return 0;
+    return ;
 }
 
 
