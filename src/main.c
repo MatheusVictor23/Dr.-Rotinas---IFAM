@@ -1,44 +1,65 @@
-// #include <gtk/gtk.h>
-// #include "../include/login.h"
-// #include "../include/telas.h"
-// #include "../include/gerenciarMedicos.h"
-// #include "../include/menu.h"
+#include <stdio.h>
+#include <locale.h>
+#include <string.h>
+#include "paciente.h"
+#include "consultas.h"
 
-// void testeDadosBin() {
-//     // Dados a serem escritos no arquivo
-//     Usuario usuarios[] = {
-//         {"admin", "admin123", ADMIN},
-//         {"medico", "medico123", MEDICO},
-//         {"recepcionista", "recep123", RECEPCIONISTA}
-//     };
+int main() {
+    setlocale(LC_ALL,"Portuguese");
 
-//     // Abrindo o arquivo binÃ¡rio para escrita no caminho especificado
-//     FILE *arquivo = fopen("../data/usuarios.bin", "wb");
-//     if (arquivo == NULL) {
-//         g_message("Erro ao abrir o arquivo");
-//         return;
-//     }
+    Lista *listaPacientes = criarLista();
+    ListaConsultas *listaConsultas = criarListaConsultas();
+    int opcao;
+    Paciente p;
 
-//     // Escrevendo os dados no arquivo
-//     size_t numUsuarios = sizeof(usuarios) / sizeof(Usuario);
-//     fwrite(usuarios, sizeof(Usuario), numUsuarios, arquivo);
+    do {
+        printf("\nMenu:\n");
+        printf("1. Cadastrar paciente\n");
+        printf("2. Listar pacientes\n");
+        printf("3. Remover paciente\n");
+        printf("4. Salvar pacientes\n");
+        printf("5. Agendar consulta\n");
+        printf("6. Listar consultas\n");
+        printf("7. Sair\n");
+        printf("Escolha uma opção: ");
+        scanf("%d", &opcao);
+        getchar();  
 
-//     // Fechando o arquivo
-//     fclose(arquivo);
+        switch (opcao) {
+            case 1:
+                p = capturarDadosPaciente();
+                adicionarPaciente(listaPacientes, p);
+                break;
+            case 2:
+                listarPacientes(listaPacientes);
+                break;
+            case 3:
+                printf("Digite o nome do paciente a ser removido: ");
+                char nome[100];
+                fgets(nome, sizeof(nome), stdin);
+                nome[strcspn(nome, "\n")] = '\0';  
+                removerPaciente(listaPacientes, nome);
+                break;
+            case 4:
+                salvarPacientesEmArquivo(listaPacientes);
+                break;
+            case 5:
+                printf("Agendamento de consulta\n");
+                agendarConsulta(listaConsultas, 1, 1);
+                break;
+            case 6:
+                listarConsultas(listaConsultas);
+                break;
+            case 7:
+                liberarLista(listaPacientes);
+                liberarLista(listaConsultas);
+                printf("Saindo do programa...\n");
+                break;
+            default:
+                printf("Opção inválida! Tente novamente.\n");
+                break;
+        }
+    } while (opcao != 7);
 
-//     g_message("Dados escritos com sucesso no arquivo binÃ¡rio.\n");
-// }
-
-// int main(int argc, char *argv[]) {
-
-//     gtk_init(&argc, &argv);
-
-//     testeDadosBin();
-
-//     iniciarMenu();
-
-//     gtk_main();
-    
-//     return 0;
-// }
-
+    return 0;
+}
