@@ -3,7 +3,7 @@
 #include <string.h>
 #include "../include/login.h"
 
-int main(int argc, char *argv[]) {
+int main() {
 
     inserir_usuarios_de_teste();
     menu();
