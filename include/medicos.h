@@ -4,5 +4,9 @@
 void menuMedicos();
 void cadastrarMedico();
 void listarMedicos();
+void salvarMedicos();
+void carregarMedicos();
+void excluirMedico();
+
 
 #endif
