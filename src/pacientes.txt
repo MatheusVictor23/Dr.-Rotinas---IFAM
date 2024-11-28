@@ -1,0 +1,30 @@
+Nome:alysson
+Data de Nascimento:28/12/2002
+Sexo:M
+CPF:1234
+Telefone:929292
+Email:aaaaa@aa
+Endereco:rua 1
+Plano de Saude:123
+Data de Cadastro:28/11/2024
+Estado Civil:solteiro
+Cidade de Nascimento:manaus
+Pais de Nascimento:brasil
+Grau de Instrução:nsei
+Profissao:flamengo
+RG:1234
+Nome da Mãe:eu
+Nome do Pai:oi
+Nome do Responsável:eumsm
+Peso:10,00
+Altura:100,00
+Encaminhado Por:chicao
+Data da Primeira Consulta:10/10/2010
+Convenio:1
+Numero da Carteira:12
+Plano:12213
+Validade da Carteira:31/02/2001
+Cartao CNS:123131
+Observacao:nenhuma
+Classificacao:4
+
