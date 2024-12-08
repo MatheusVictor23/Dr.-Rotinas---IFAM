@@ -3,6 +3,9 @@
 #include <string.h>
 #include <stdbool.h>
 #include "../include/login.h"
+#include "../include/admin.h"
+#include "../include/medicos.h"
+#include "../include/recepcionista.h"
 
 #ifdef _WIN32
 #include <conio.h>
@@ -124,11 +127,10 @@ void finalizar() {
 
 void inserir_usuarios_de_teste() {
 
-
     // abrindo o arquivo binário 
     FILE *arquivo = fopen("../data/usuarios.bin", "wb");
     if (arquivo == NULL) {
-        printf("Erro ao abrir o arquivo\n");
+        printf("Erro ao abrir o arquivo de usuários teste\n");
         return;
     }
 
@@ -152,7 +154,7 @@ void inserir_usuarios_de_teste() {
 bool verificar_login(const char *usuario, const char *senha, const char *cargo_escolhido){
         FILE *fp = fopen("../data/usuarios.bin", "rb");
         if(fp == NULL){
-                printf("Erro ao abrir o arquivo!\n");
+                printf("Falha ao ler os usuários do arquivo usuarios.bin!\n");
                 return false;
         }
 
@@ -191,16 +193,15 @@ void fazer_login(char *cargo_escolhido) {
 
         if(verificar_login(usuario, senha, cargo_escolhido)){
                 if(strcmp(cargo_escolhido, "admin") == 0) {
-                        printf("---------------------------------------\n");
-                        printf("tela do ADMIN.\n");
+                    menuPrincipal();
                 }
                 else if(strcmp(cargo_escolhido, "medico") == 0){
-                        printf("---------------------------------------\n");
-                        printf("tela do MEDICO.\n");
+                    printf("---------------------------------------\n");
+                    printf("Você logou como Médico.\n");
                 }
                 else {
-                        printf("---------------------------------------\n");
-                        printf("tela do RECEPCIONISTA.\n");
+                    printf("---------------------------------------\n");
+                    printf("Você logou como recepcionista.\n");
                 }
         }
 
@@ -298,9 +299,11 @@ void menu(){
         case 0: puts("Saindo...\n");
                 break;
 
-        default: puts("Entrada inválida");
-                 finalizar();
-                 break;
+        default:
+                getchar();
+                puts("Entrada inválida");
+                finalizar();
+                break;
                  
     }
 
