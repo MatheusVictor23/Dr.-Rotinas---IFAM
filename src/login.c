@@ -192,15 +192,15 @@ void fazer_login(char *cargo_escolhido) {
         if(verificar_login(usuario, senha, cargo_escolhido)){
                 if(strcmp(cargo_escolhido, "admin") == 0) {
                         printf("---------------------------------------\n");
-                        printf("Implementar tela do ADMIN.\n");
+                        printf("tela do ADMIN.\n");
                 }
                 else if(strcmp(cargo_escolhido, "medico") == 0){
                         printf("---------------------------------------\n");
-                        printf("Implementar tela do MEDICO.\n");
+                        printf("tela do MEDICO.\n");
                 }
                 else {
                         printf("---------------------------------------\n");
-                        printf("Implementar tela do RECEPCIONISTA.\n");
+                        printf("tela do RECEPCIONISTA.\n");
                 }
         }
 
