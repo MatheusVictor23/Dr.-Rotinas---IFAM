@@ -16,6 +16,8 @@ void finalizar();
 
 void inserir_usuarios_de_teste();
 
+bool verificar_usuario(const char *nome_usuario);
+
 bool verificar_login(const char *usuario, const char *senha, const char *cargo);
 
 void fazer_login(char *cargo_escolhido);

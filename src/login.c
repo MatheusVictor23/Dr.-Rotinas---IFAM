@@ -17,6 +17,62 @@ typedef struct _user{
     char cargo[20];
 }Usuario;
 
+
+// Função para capturar um caractere sem exibir na tela (não bloqueante)
+char get_char_input() {
+#ifdef _WIN32
+    return _getch();
+#else
+    struct termios oldt, newt;
+    char ch;
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    ch = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    return ch;
+#endif
+}
+
+// Função para aplicar máscara enquanto digita
+void ler_cpf_com_mascara(char *cpf) {
+    int i = 0; // Índice para a string do CPF
+    char input;
+
+    printf("Digite o CPF (apenas números): ");
+
+    while (i < 14) { // 14 porque o CPF formatado tem 14 caracteres (incluindo '.' e '-')
+        input = get_char_input();
+
+        // Verifica se é um número
+        if (input >= '0' && input <= '9') {
+            if (i == 3 || i == 7) {
+                cpf[i++] = '.';
+                putchar('.');
+            }
+            if (i == 11) {
+                cpf[i++] = '-';
+                putchar('-');
+            }
+            cpf[i++] = input;
+            putchar(input);
+        } else if (input == '\b' && i > 0) { // Backspace
+            if (cpf[i - 1] == '.' || cpf[i - 1] == '-') {
+                i--; // Remove o separador
+            }
+            i--;
+            printf("\b \b"); // Remove o último caractere da tela
+        } else if (input == '\n' || input == '\r') {
+            break; // Enter termina a entrada
+        }
+    }
+
+    cpf[i] = '\0'; // Finaliza a string
+    printf("\n");
+}
+
+
 // Função para capturar senha com asteriscos
 void ler_senha(char *senha) {
     int i = 0;
@@ -152,6 +208,38 @@ void fazer_login(char *cargo_escolhido) {
         
 }
 
+bool verificar_usuario(const char *nome_usuario){
+        char cpf[15];
+
+        FILE *fp = fopen("../data/usuarios.bin", "rb");
+        if(fp == NULL){
+                printf("Erro ao abrir o arquivo!\n");
+                return false;
+        }
+
+        Usuario user;
+        while(fread(&user, sizeof(Usuario), 1, fp)){
+                // verifica se o nome de usuario fornecido existe
+                if(strcmp(user.username, nome_usuario) == 0){
+                        fclose(fp);
+                        ler_cpf_com_mascara(cpf);
+                        printf("CPF digitado: %s\n", cpf);
+                        puts("DEU CERTO!");
+                        finalizar();
+                        return true;
+                }
+                else {
+                        puts("### Nome de usuário não encontrado no sistema ###");
+                        getchar();
+                        finalizar();
+                        return false;
+                }
+        }
+
+        fclose(fp);
+        return false;
+}
+
 void menu(){
     int op;
 
@@ -168,6 +256,7 @@ void menu(){
     puts("\t| 1. Admin                     |");
     puts("\t| 2. Médico                    |");
     puts("\t| 3. Recepcionista             |");
+    puts("\t| 4. Esqueci a senha           |");
     puts("\t| 0. Sair do Sistema           |");
     puts("\t|                              |");
     puts("\t+------------------------------+");
@@ -175,6 +264,7 @@ void menu(){
     scanf("%i", &op);
 
     char cargo_escolhido[20];
+    char nome_usuario[50];
 
     switch(op) {
         case 1: strcpy(cargo_escolhido, "admin");
@@ -193,6 +283,16 @@ void menu(){
                 system("cls || clear");
                 puts("Você escolheu a opção Recepcionista.");
                 fazer_login(cargo_escolhido);
+                break;
+
+        case 4: system("cls || clear");
+                getchar();
+                puts("Informe seu nome de usuário para continuar:");
+                printf("-> ");
+                fgets(nome_usuario, sizeof(nome_usuario), stdin);
+                nome_usuario[strcspn(nome_usuario, "\n")] = '\0'; // Remove o caractere de nova linha se existir
+                // scanf("%s", nome_usuario);
+                verificar_usuario(nome_usuario);
                 break;
 
         case 0: puts("Saindo...\n");
