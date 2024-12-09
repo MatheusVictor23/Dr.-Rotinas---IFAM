@@ -81,27 +81,33 @@ void cadastrarMedico() {
     printf("Medico cadastrado com sucesso!\n");
 }
 
+
+
+
 void listarMedicos() {
-    if (!listaMedicos) {
+    if (listaMedicos == NULL) {
         printf("\nNenhum medico cadastrado.\n");
+        
     }
 
-    int op = 0;
-    Medico *atual = listaMedicos;
     printf("\n--- Lista de Medicos ---\n");
-    while (atual) {
+    Medico *atual = listaMedicos;
+    int op = 0;
+
+    while (atual != NULL) {
         printf("ID: %d\n", atual->id);
         printf("Nome: %s\n", atual->nome);
         printf("Telefone: %s\n", atual->telefone);
-        printf("Especialidade: %s\n", atual->especialidade);
+        printf("Cargo: %s\n", atual->cargo);
         printf("---------------------------\n");
-        atual = atual->proximo;
+        atual = atual->proximo; // Avança para o proximo no
     }
 
     do{
-        printf("\n\n1- Retornar: ");
+        printf("\n\n 1- Retornar\n");
         scanf("%d",&op);
-    }while(op!=1);
+    }while(op != 1);
+    return;
 }
 
 
@@ -116,6 +122,7 @@ void excluirMedico() {
         scanf("%d",&op);
     }while(op != 1);
     return ;
+        
     }
 
     printf("Digite o ID do medico a ser excluido: ");
@@ -124,15 +131,15 @@ void excluirMedico() {
     Medico *atual = listaMedicos;
     Medico *anterior = NULL;
 
-    // Procurar o medico com o ID correspondente
+    // Procurar o médico com o ID correspondente
     while (atual != NULL && atual->id != id) {
         anterior = atual;
         atual = atual->proximo;
     }
 
-    // Verificar se o medico foi encontrado
+    // Verificar se o médico foi encontrado
     if (!atual) {
-        printf("Medico com ID %d nao encontrado.\n", id);
+        printf("Medico com ID %d não encontrado.\n", id);
         do{
         printf("\n\n 1- Retornar: ");
         scanf("%d",&op);
@@ -140,20 +147,20 @@ void excluirMedico() {
     return ;
     }
 
-    // Remover o medico da lista
+    // Remover o médico da lista
     if (anterior == NULL) {
-        // O medico a ser removido esta no inicio da lista
+        // O médico a ser removido esta no início da lista
         listaMedicos = atual->proximo;
     } else {
-        // O medico a ser removido esta no meio ou no final
+        // O médico a ser removido esta no meio ou no final
         anterior->proximo = atual->proximo;
     }
 
     free(atual);
-    printf("Medico com ID %d excluido com sucesso.\n", id);
+    printf("Medico com ID %d excluído com sucesso.\n", id);
 
     // Salvar a lista atualizada no arquivo binario
-    FILE *arquivo = fopen("../data/medicos.bin", "wb");
+    FILE *arquivo = fopen("../data/medico.bin", "wb");
     if (!arquivo) {
         perror("Erro ao abrir o arquivo para salvar.");
         return;
@@ -175,36 +182,36 @@ void excluirMedico() {
 }
 
 
-
-// Funçao para salvar a lista de medicos em arquivo binario
 void salvarMedicos() {
-    FILE *arquivo = fopen("../data/medicos.bin", "wb");
+    FILE *arquivo = fopen("../data/medico.bin", "wb");
     if (!arquivo) {
-        perror("Erro ao salvar medicos");
+        perror("Erro ao abrir arquivo para escrita");
         return;
     }
 
     Medico *atual = listaMedicos;
-    while (atual) {
-        fwrite(atual, sizeof(Medico) - sizeof(Medico *), 1, arquivo); // Exclui o campo ponteiro
+    while (atual != NULL) {
+        fwrite(atual, sizeof(Medico), 1, arquivo);
         atual = atual->proximo;
     }
 
-    fwrite(&ultimoIdMedico, sizeof(int), 1, arquivo); // Salva o último ID
+    fwrite(&ultimoIdMedico, sizeof(int), 1, arquivo);
     fclose(arquivo);
     printf("\nMedicos salvos com sucesso!\n");
 }
 
-// Funçao para carregar a lista de medicos do arquivo binario
+
+
+
 void carregarMedicos() {
-    FILE *arquivo = fopen("../data/medicos.bin", "rb");
+    FILE *arquivo = fopen("../data/medico.bin", "rb");
     if (!arquivo) {
-        printf("\nNenhum medico encontrado.\n");
+        printf("Nenhum arquivo de medicos encontrado.\n");
         return;
     }
 
     Medico temp;
-    while (fread(&temp, sizeof(Medico) - sizeof(Medico *), 1, arquivo) == 1) {
+    while (fread(&temp, sizeof(Medico), 1, arquivo) == 1) {
         Medico *novo = (Medico *)malloc(sizeof(Medico));
         if (!novo) {
             printf("Erro ao alocar memoria.\n");
@@ -217,7 +224,7 @@ void carregarMedicos() {
         listaMedicos = novo;
     }
 
-    fread(&ultimoIdMedico, sizeof(int), 1, arquivo); // Carrega o último ID
+    fread(&ultimoIdMedico, sizeof(int), 1, arquivo);
     fclose(arquivo);
-    printf("\nMedicos carregados com sucesso!\n");
+    printf("Medicos carregados com sucesso!\n");
 }
