@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../../include/admin.h"
-#include "../../include/medicos.h"
-#include "../../include/recepcionista.h"
+#include "../../include/login/login.h"
 
-int main(int argc, char *argv[]) {
-   menuPrincipal();
- 
+int main() {
+
+    inserir_usuarios_de_teste();
+    menu();
+    
     return 0;
 }
 

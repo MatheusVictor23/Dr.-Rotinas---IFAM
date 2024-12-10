@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/medicos.h"
+#include "../../include/admin/medicos.h"
 
 typedef struct Medico {
     int id;
@@ -85,6 +85,9 @@ void cadastrarMedico() {
 
 
 void listarMedicos() {
+
+    system("cls || clear");
+
     if (listaMedicos == NULL) {
         printf("\nNenhum medico cadastrado.\n");
         
@@ -115,6 +118,8 @@ void excluirMedico() {
     int id;
     int op = 0;
 
+    system("cls || clear");
+    
     if (!listaMedicos) {
         printf("Nenhum medico cadastrado.\n");
         do{

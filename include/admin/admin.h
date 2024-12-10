@@ -7,7 +7,7 @@ typedef struct _user Usuario;
 
 void menuPrincipal();
 
-void finalizar();
+// void finalizar();
 
 
 #endif

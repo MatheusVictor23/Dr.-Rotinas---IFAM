@@ -1,17 +1,17 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include "../include/admin.h"
 #include <string.h>
-#include "../include/medicos.h"
-#include "../include/recepcionista.h"
+#include "../../include/admin/admin.h"
+#include "../../include/admin/medicos.h"
+#include "../../include/admin/recepcionista.h"
+#include "../../include/login/login.h"
 
-
-void finalizar() {
-    puts("Pressione <ENTER> para finalizar.");
+// void finalizar() {
+//     puts("Pressione <ENTER> para finalizar.");
     
-    getchar();
+//     getchar();
     
-}
+// }
 
 void menuPrincipal(){
     int op;
@@ -30,7 +30,7 @@ void menuPrincipal(){
     puts("\t|                              |");
     puts("\t| 1. Medico                    |");
     puts("\t| 2. Recepcionista             |");
-    puts("\t| 0. Sair do Sistema           |");
+    puts("\t| 0. Voltar ao login           |");
     puts("\t|                              |");
     puts("\t+------------------------------+");
     printf("Digite a opcao: ");
@@ -47,10 +47,11 @@ void menuPrincipal(){
                 break;
         
         case 0: puts("Saindo...\n");
+                menu();
                 break;
 
         default: puts("Entrada invalida");
-                 finalizar();
+                //  finalizar();
                  break;
                  
     }
