@@ -2,8 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "../include/medicos.h"
-#include "../include/login.h"
+#include "../../include/admin/medicos.h"
+#include "../../include/login/login.h"
+
+#ifdef _WIN32
+#include <conio.h>
+#else
+#include <termios.h>
+#include <unistd.h>
+#endif
+
+typedef struct _user{
+    char username[50];
+    char senha[50];
+    char cargo[20];
+    char cpf[15];
+}Usuario;
+
 
 typedef struct Medico {
     int id;
@@ -12,6 +27,8 @@ typedef struct Medico {
     char cpf[15];
     char especialidade[30];
     char cargo[20];
+    char username[50];
+    char senha[50];
     struct Medico *proximo; // Ponteiro para o proximo no da lista
 } Medico;
 
@@ -20,6 +37,7 @@ Medico *listaMedicos = NULL; // Cabeça da lista
 int gerarID(){
     return rand() % 1000 + 1; // id entre 1 e 1000
 }
+
 
 void menuMedicos() {
     int op;
@@ -70,6 +88,97 @@ void menuMedicos() {
     } while (op != 0);
 }
 
+// Função para capturar um caractere sem exibir na tela (não bloqueante)
+char get_char_input_medico() {
+#ifdef _WIN32
+    return _getch();
+#else
+    struct termios oldt, newt;
+    char ch;
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    ch = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    return ch;
+#endif
+}
+
+// Função para aplicar máscara enquanto digita
+void ler_cpf_com_mascara_medico(char *cpf) {
+    int i = 0; // Índice para a string do CPF
+    char input;
+
+    printf("Digite o CPF (apenas números): ");
+
+    while (i < 14) { // 14 porque o CPF formatado tem 14 caracteres (incluindo '.' e '-')
+        input = get_char_input();
+
+        // Verifica se é um número
+        if (input >= '0' && input <= '9') {
+            if (i == 3 || i == 7) {
+                cpf[i++] = '.';
+                putchar('.');
+            }
+            if (i == 11) {
+                cpf[i++] = '-';
+                putchar('-');
+            }
+            cpf[i++] = input;
+            putchar(input);
+        } else if (input == '\b' && i > 0) { // Backspace
+            if (cpf[i - 1] == '.' || cpf[i - 1] == '-') {
+                i--; // Remove o separador
+            }
+            i--;
+            printf("\b \b"); // Remove o último caractere da tela
+        } else if (input == '\n' || input == '\r') {
+            break; // Enter termina a entrada
+        }
+    }
+
+    cpf[i] = '\0'; // Finaliza a string
+    printf("\n");
+}
+
+void salvarCredenciais(const char *nome, const int id, const char *cpf, char *cargo){
+    Usuario usuario;
+    
+    // Gera o nome de usuário (nome + id)
+    snprintf(usuario.username, sizeof(usuario.username), "%s%d", nome, id);
+
+    // Gera a senha (4 primeiros dígitos do CPF)
+    int i = 0;
+    int cpf_index = 0;
+    while (cpf[cpf_index] != '\0' && i < 4) {
+        if (cpf[cpf_index] >= '0' && cpf[cpf_index] <= '9') {
+            usuario.senha[i++] = cpf[cpf_index];  // armazena e itera
+        }
+        cpf_index++;
+    }
+    usuario.senha[i] = '\0';  // Finaliza a senha
+
+    // Copia o CPF e o cargo
+    strncpy(usuario.cpf, cpf, sizeof(usuario.cpf));
+    strncpy(usuario.cargo, cargo, sizeof(usuario.cargo));
+
+    // Salva as credenciais no arquivo binário
+    FILE *arquivo_medicos = fopen("../data/usuarios.bin", "ab");  // Modo binário (ab)
+    if (arquivo_medicos == NULL) {
+        perror("Erro ao salvar credenciais.");
+        return;
+    }
+
+    // Salva a estrutura Usuario
+    fwrite(&usuario, sizeof(Usuario), 1, arquivo_medicos);
+    fclose(arquivo_medicos);
+
+    printf("Credenciais do médico: \n");
+    printf("Usuário: %s\n", usuario.username);
+    printf("Senha: %s\n", usuario.senha);
+}
+
 void cadastrarMedico() {
     Medico *novo = (Medico *)malloc(sizeof(Medico));
     if (!novo) {
@@ -83,15 +192,16 @@ void cadastrarMedico() {
     printf("\n--- Cadastrar Medico ---\n");
     novo->id = id;
     printf("ID: %d\n", novo->id);
+
     // NOME
     getchar();
     printf("Nome: ");
     fgets(novo->nome, sizeof(novo->nome), stdin);
     strtok(novo->nome, "\n"); // Remove o '\n' que fgets adiciona
+    
     // CPF
-    printf("CPF: ");
-    fgets(novo->cpf, sizeof(novo->cpf), stdin);
-    strtok(novo->cpf, "\n");
+    ler_cpf_com_mascara(novo->cpf);
+    
     // TELEFONE
     printf("Telefone: ");
     fgets(novo->telefone, sizeof(novo->telefone), stdin);
@@ -117,6 +227,9 @@ void cadastrarMedico() {
 
     fwrite(novo, sizeof(Medico) - sizeof(Medico *), 1, arquivo);
     fclose(arquivo);
+
+    // cria e salva credenciais
+    salvarCredenciais(novo->nome, novo->id, novo->cpf, novo->cargo);
 
     printf("Médico cadastrado com sucesso!\n");
     finalizar();
@@ -155,6 +268,7 @@ void listarMedicosDiretamenteArquivo() {
 
     if (!arquivo) {
         printf("\nNenhum médico encontrado.\n");
+        getchar();
         finalizar();
         return;
     }
@@ -175,63 +289,64 @@ void listarMedicosDiretamenteArquivo() {
     finalizar();
 }
 
-
-
 void excluirMedico() {
-    int id;
-
+    int id_med;
     printf("Digite o ID do medico a ser excluido: ");
-    scanf("%d", &id);
+    scanf("%d", &id_med);
 
-    Medico *atual = listaMedicos;
-    Medico *anterior = NULL;
-
-    // Procurar o medico com o ID correspondente
-    while (atual != NULL && atual->id != id) {
-        anterior = atual;
-        atual = atual->proximo;
-    }
-
-    // Verificar se o medico foi encontrado
-    if (!atual) {
-        getchar();
-        printf("Medico com ID %d nao encontrado.\n", id);
-        finalizar();
-        return;
-    }
-
-    // Remover o medico da lista
-    if (anterior == NULL) {
-        // O medico a ser removido esta no inicio da lista
-        listaMedicos = atual->proximo;
-    } else {
-        // O medico a ser removido esta no meio ou no final
-        anterior->proximo = atual->proximo;
-    }
-
-    free(atual);
-
-    // Atualiza o arquivo binário
-    FILE *arquivo = fopen("../data/medicos.bin", "wb");
+    FILE *arquivo = fopen("../data/medicos.bin", "rb");
     if (!arquivo) {
-        perror("Erro ao abrir o arquivo para salvar.");
+        perror("Erro ao abrir o arquivo.");
         return;
     }
 
-    Medico *temp = listaMedicos;
-    while (temp != NULL) {
-        fwrite(temp, sizeof(Medico) - sizeof(Medico *), 1, arquivo);
-        temp = temp->proximo;
+    FILE *arquivoTemp = fopen("../data/temp_medicos.bin", "wb");
+    if (!arquivoTemp) {
+        perror("Erro ao criar o arquivo temporário.");
+        fclose(arquivo);
+        return;
     }
+
+    Medico tempMedico;
+    int medicoExcluido = 0;
+
+    // Ler e gravar os médicos no arquivo temporário, excluindo o médico com o ID fornecido
+    while (fread(&tempMedico, sizeof(Medico) - sizeof(Medico *), 1, arquivo) == 1) {
+        if (tempMedico.id != id_med) {
+            // Se não for o médico a ser excluído, grava no arquivo temporário
+            fwrite(&tempMedico, sizeof(Medico) - sizeof(Medico *), 1, arquivoTemp);
+        } else {
+            medicoExcluido = 1; // Médico encontrado e excluído
+        }
+    }
+
     fclose(arquivo);
+    fclose(arquivoTemp);
 
-    // recarrega a lista do arquivo
-    carregarMedicos();
+    if (!medicoExcluido) {
+        printf("Médico com ID %d não encontrado.\n", id_med);
+        remove("../data/temp_medicos.bin");
+        return;
+    }
 
-    getchar();
+    // Substituir o arquivo original pelo temporário
+    if (remove("../data/medicos.bin") != 0) {
+        perror("Erro ao remover o arquivo original.");
+        return;
+    }
+
+    if (rename("../data/temp_medicos.bin", "../data/medicos.bin") != 0) {
+        perror("Erro ao renomear o arquivo temporário.");
+        return;
+    }
+
     printf("Médico excluído com sucesso.\n");
+    getchar();
     finalizar();
 }
+
+
+
 
 void limparLista() {
     Medico *atual = listaMedicos;
@@ -243,7 +358,6 @@ void limparLista() {
     listaMedicos = NULL;
 }
 
-// Funçao para carregar a lista de medicos do arquivo binario
 void carregarMedicos() {
     limparLista(); // limpa a lista antes de carregar de novo
 
@@ -253,7 +367,7 @@ void carregarMedicos() {
     }
 
     Medico temp;
-    while (fread(&temp, sizeof(Medico) - sizeof(Medico *), 1, arquivo) == 1) {
+    while (fread(&temp, sizeof(Medico), 1, arquivo) == 1) {
         Medico *novo = (Medico *)malloc(sizeof(Medico));
         if (!novo) {
             printf("Erro ao alocar memoria.\n");

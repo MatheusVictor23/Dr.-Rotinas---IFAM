@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../include/recepcionista.h"
+#include "../../include/admin/recepcionista.h"
+
 typedef struct Recepcionista {
     int id;
     char nome[50];
@@ -77,6 +78,8 @@ void cadastrarRecepcionista() {
 }
 
 void listarRecepcionistas() {
+    system("cls || clear");
+
     if (listaRecepcionistas == NULL) {
         printf("\nNenhum recepcionista cadastrado.\n");
         
@@ -106,6 +109,8 @@ void listarRecepcionistas() {
 void excluirRecepcionista() {
     int id;
     int op = 0;
+
+    system("cls || clear");
 
     if (!listaRecepcionistas) {
         printf("Nenhum recepcionista cadastrado.\n");

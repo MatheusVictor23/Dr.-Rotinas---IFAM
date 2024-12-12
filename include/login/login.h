@@ -14,6 +14,10 @@ void menu();
 
 void finalizar();
 
+void ler_cpf_com_mascara(char *cpf);
+
+char get_char_input();
+
 void inserir_usuarios_de_teste();
 
 bool verificar_usuario(const char *nome_usuario);
