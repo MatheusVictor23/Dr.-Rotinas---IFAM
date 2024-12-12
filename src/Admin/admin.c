@@ -5,6 +5,8 @@
 #include "../../include/admin/medicos.h"
 #include "../../include/admin/recepcionista.h"
 #include "../../include/login/login.h"
+#include "../../include/financeiro/financeiro.h"
+
 
 // void finalizar() {
 //     puts("Pressione <ENTER> para finalizar.");
@@ -30,6 +32,7 @@ void menuPrincipal(){
     puts("\t|                              |");
     puts("\t| 1. Medico                    |");
     puts("\t| 2. Recepcionista             |");
+    puts("\t| 3. MenuFinanceiro            |");
     puts("\t| 0. Voltar ao login           |");
     puts("\t|                              |");
     puts("\t+------------------------------+");
@@ -44,6 +47,10 @@ void menuPrincipal(){
 
         case 2: system("cls || clear");
                 menuRecepcionistas();
+                break;
+
+        case 3: system("cls || clear");
+                menuFinanceiro();
                 break;
         
         case 0: puts("Saindo...\n");

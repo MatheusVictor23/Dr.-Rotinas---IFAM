@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include "../../include/login/login.h"
 #include "../../include/admin/admin.h"
+#include "../../include/medico/prontuario.h"
 
 #ifdef _WIN32
 #include <conio.h>
@@ -199,6 +200,7 @@ void fazer_login(char *cargo_escolhido) {
                 else if(strcmp(cargo_escolhido, "medico") == 0){
                     printf("---------------------------------------\n");
                     printf("Você logou como Médico.\n");
+                    menuMedico();
                 }
                 else {
                     printf("---------------------------------------\n");

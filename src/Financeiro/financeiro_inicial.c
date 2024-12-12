@@ -78,7 +78,3 @@ void menuFinanceiro() {
 
 }
 
-int main() {
-    menuFinanceiro();
-    return 0;
-}
