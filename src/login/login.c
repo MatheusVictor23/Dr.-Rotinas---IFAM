@@ -5,6 +5,7 @@
 #include "../../include/login/login.h"
 #include "../../include/admin/admin.h"
 #include "../../include/medico/prontuario.h"
+#include "../../include/recepcionista/consulta.h"
 
 #ifdef _WIN32
 #include <conio.h>
@@ -194,18 +195,19 @@ void fazer_login(char *cargo_escolhido) {
         ler_senha(senha);
 
         if(verificar_login(usuario, senha, cargo_escolhido)){
-                if(strcmp(cargo_escolhido, "admin") == 0) {
-                        menuPrincipal();
-                }
-                else if(strcmp(cargo_escolhido, "medico") == 0){
-                    printf("---------------------------------------\n");
-                    printf("Você logou como Médico.\n");
-                    menuMedico();
-                }
-                else {
-                    printf("---------------------------------------\n");
-                    printf("Você logou como recepcionista.\n");
-                }
+            if(strcmp(cargo_escolhido, "admin") == 0) {
+                menuPrincipal();
+            }
+            else if(strcmp(cargo_escolhido, "medico") == 0){
+                printf("---------------------------------------\n");
+                printf("Você logou como Médico.\n");
+                menuMedico();
+            }
+            else {
+                printf("---------------------------------------\n");
+                printf("Você logou como recepcionista.\n");
+                menuRecepcionista();
+            }
         }
 
         finalizar();
@@ -398,8 +400,9 @@ void menu(){
                 imprimirCredenciais();
                 break;
 
-        case 0: puts("Saindo...\n");
-                break;
+        case 0: getchar();
+                puts("Saindo...\n");
+                exit(0);
 
         default:
                 getchar();

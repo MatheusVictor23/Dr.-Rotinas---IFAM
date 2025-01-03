@@ -39,7 +39,7 @@ typedef struct No3 {
     struct No3 *proximo;
 } No3;
 
-typedef struct No {
+typedef struct NoProntuario {
     ProntuarioPaciente prontuario;
     struct No *proximo;
     No2 *exames; // Ponteiro para lista de exames
@@ -51,7 +51,7 @@ typedef struct {
 } Lista;
 
 // Funções para manipulação da lista
-Lista* criarLista();
+Lista* criarListaProntuario();
 void adicionarProntuario(Lista *lista, ProntuarioPaciente prontuario);
 void salvarProntuarioEmArquivo(Lista *lista);
 void adicionarExame(Lista *lista, SolicitarExame exame, char *nome);

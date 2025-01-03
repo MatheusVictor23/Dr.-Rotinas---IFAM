@@ -4,6 +4,7 @@
 #include <time.h>
 #include "../../include/admin/medicos.h"
 #include "../../include/login/login.h"
+#include "../../include/admin/admin.h"
 
 #ifdef _WIN32
 #include <conio.h>
@@ -77,7 +78,8 @@ void menuMedicos() {
                 break;
             case 0:
                 system("cls || clear");
-                return;
+                menuPrincipal();
+                break;
 
             default:
                 getchar();

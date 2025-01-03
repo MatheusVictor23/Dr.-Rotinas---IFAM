@@ -48,7 +48,7 @@ typedef struct {
 } Lista;
 
 // Funções para manipulação da lista
-Lista* criarLista() {
+Lista* criarListaProntuario() {
     Lista *lista = (Lista*)malloc(sizeof(Lista));
     lista->inicio = NULL;
     return lista;
@@ -65,7 +65,7 @@ void adicionarProntuario(Lista *lista, ProntuarioPaciente prontuario) {
 
 // Função para salvar dados no arquivo
 void salvarProntuarioEmArquivo(Lista *lista) {
-    FILE *arquivo = fopen("prontuario.txt", "w");
+    FILE *arquivo = fopen("../../data/prontuario.txt", "w");
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo para gravacao.\n");
         return;
@@ -379,13 +379,18 @@ void exibirCabecalho(const char *titulo) {
 // Função principal
 void menuMedico() {
     setlocale(LC_ALL, "Portuguese");
-    Lista *lista = criarLista();
+    Lista *lista = criarListaProntuario();
     lerProntuarioDoArquivo(lista); // Lê pacientes do arquivo ao iniciar
 
     int opcao, opcao2;
 
     do {
-    	exibirCabecalho("\nMenu:\n");
+    	// exibirCabecalho("\nMenu:\n");
+        puts("\t+------------------------------+");
+        puts("\t|                              |");
+        puts("\t|      BEM VINDO(A) MEDICO     |");
+        puts("\t|                              |");
+        puts("\t+------------------------------+"); 
         printf("1. Prontuario Medico Eletronico\n");
         printf("2. Exames\n");
         printf("3. Encaminhamentos\n");
