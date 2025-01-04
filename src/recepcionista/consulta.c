@@ -570,7 +570,8 @@ void consultarDadosPaciente(LISTA *lista) {
 void listarPacientes(LISTA *lista) {
     if (tamanhoLista(lista) == 0) {
         puts("Nenhum paciente cadastrado. Cadastre um paciente primeiro.");
-        system("pause");
+        getchar();
+        finalizar();
         return; // Retorna para evitar listar pacientes
     }
 

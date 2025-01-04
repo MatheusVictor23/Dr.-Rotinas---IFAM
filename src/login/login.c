@@ -119,9 +119,7 @@ void ler_senha(char *senha) {
 // pra controle de tela
 void finalizar() {
     puts("Pressione <ENTER> para finalizar.");
-    
     getchar();
-    
 }
 
 // ********** TESTANDO ARQUIVO BIN ******
