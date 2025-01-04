@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Compilar Projeto DR-Rotinas",
+            "command": "C:\\MinGW\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${workspaceFolder}/src/Admin/admin.c",
+                "${workspaceFolder}/src/Admin/medicos.c",
+                "${workspaceFolder}/src/Admin/recepcionista.c",
+                "${workspaceFolder}/src/Financeiro/financeiro_inicial.c",
+                "${workspaceFolder}/src/login/login.c",
+                "${workspaceFolder}/src/main/main.c",
+                "${workspaceFolder}/src/Medico/prontuario.c",
+                "${workspaceFolder}/src/recepcionista/consulta.c",
+                "-I",
+                "${workspaceFolder}/include",
+                "-o",
+                "${workspaceFolder}/output/dr-rotinas.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Compilação personalizada para o projeto DR-Rotinas."
+        },
+        {
+            "type": "shell",
+            "label": "Rodar Projeto DR-Rotinas",
+            "command": "${workspaceFolder}/output/dr-rotinas.exe",
+            "dependsOn": "Compilar Projeto DR-Rotinas",
+            "problemMatcher": []
+        }
+    ]
+}
