@@ -5,7 +5,7 @@
 #include <windows.h>
 #include "../../include/login/login.h"
 #include "../../include/admin/admin.h"
-#include "../../include/medico/prontuario.h"
+#include "../../include/medico/Prontuario.h"
 #include "../../include/recepcionista/consulta.h"
 
 #ifdef _WIN32

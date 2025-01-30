@@ -5,8 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <locale.h>
+#include <windows.h>
+#include <conio.h>
 
-// Definição do TAD de lista dinâmica encadeada para prontuário de paciente
+// Estruturas de Dados
+
 typedef struct {
     char nome[100];
     char datanasc[20];
@@ -29,43 +32,45 @@ typedef struct {
     char observacoes[80];
 } Encaminhamento;
 
-typedef struct No2 {
-    SolicitarExame exame;
-    struct No2 *proximo;
-} No2;
-
-typedef struct No3 {
-    Encaminhamento encaminhamento;
-    struct No3 *proximo;
-} No3;
-
 typedef struct NoProntuario {
     ProntuarioPaciente prontuario;
-    struct No *proximo;
-    No2 *exames; // Ponteiro para lista de exames
-    No3 *encaminhamentos; // Ponteiro para lista de encaminhamentos
-} No;
+    struct NoProntuario *proximo;
+    struct NoProntuario2 *exames; // Ponteiro para lista de exames
+    struct NoProntuario3 *encaminhamentos; // Ponteiro para lista de encaminhamentos
+} NoProntuario;
+
+typedef struct NoProntuario2 {
+    SolicitarExame exame;
+    struct NoProntuario2 *proximo;
+} NoProntuario2;
+
+typedef struct NoProntuario3 {
+    Encaminhamento encaminhamento;
+    struct NoProntuario3 *proximo;
+} NoProntuario3;
 
 typedef struct {
-    No *inicio;
+    NoProntuario *inicio;
 } Lista;
 
-// Funções para manipulação da lista
-Lista* criarListaProntuario();
+// Funções
+Lista* criarListaMedico();
+ProntuarioPaciente capturarDadosProntuario();
+SolicitarExame capturarDadosExame(Lista *lista, char *nome);
+Encaminhamento capturarDadosEncaminhamento(Lista *lista, char *nome);
 void adicionarProntuario(Lista *lista, ProntuarioPaciente prontuario);
-void salvarProntuarioEmArquivo(Lista *lista);
 void adicionarExame(Lista *lista, SolicitarExame exame, char *nome);
 void adicionarEncaminhamento(Lista *lista, Encaminhamento encaminhamento, char *nome);
 void listarProntuarios(Lista *lista, char *nome);
 void listarExames(Lista *lista, char *nome);
 void listarEncaminhamentos(Lista *lista, char *nome);
-void liberarLista(Lista *lista);
+void salvarProntuarioEmArquivo(Lista *lista);
 void lerProntuarioDoArquivo(Lista *lista);
-ProntuarioPaciente capturarDadosProntuario();
-SolicitarExame capturarDadosExame(Lista *lista, char *nome);
-Encaminhamento capturarDadosEncaminhamento(Lista *lista, char *nome);
-char* str_repeat(const char *s, int n);
-void exibirCabecalho(const char *titulo);
+void menuProntuario(Lista *lista);
 void menuMedico();
+// void setColor(int textColor);
+// void imprimirMenu(const char *opcoes[], const char *opcoesDestacadas[], int num_opcoes, int destaque, int espaco_max);
+// char controlaEntrada(int *destaque, int num_opcoes);
+void liberarListaMedico(Lista *lista);
 
-#endif // PRONTUARIO_H
+#endif PRONTUARIO_H

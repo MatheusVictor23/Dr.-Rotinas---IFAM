@@ -8,7 +8,7 @@
 #include "../../include/recepcionista/consulta.h"
 #include "../../include/login/login.h"
 #include "../../include/admin/admin.h"
-#include "../../include/medico/prontuario.h"
+#include "../../include/medico/Prontuario.h"
 
 //Variáveis globais/controle
 int ultimo_id_paciente = 0;
