@@ -1,4 +1,4 @@
-//consulta.h
+//consulta.h 
 
 #ifndef CONSULTA_H
 #define CONSULTA_H
@@ -8,6 +8,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include <locale.h>
+#include <windows.h>
+#include <conio.h>
+#include <time.h>
 
 //Estrutura de dados
 typedef struct Paciente {
@@ -45,9 +48,18 @@ typedef struct Consulta {
     char status[20];
 } CONSULTA;
 
-//ESTRUTURAS DA AGENDA MÃ‰DICA REMOVIDAS.
 
-//Estrutura de nÃ³ e lista genÃ©rica
+typedef struct DiaDaAgenda {
+    char data_agenda[11];
+    int dia_agenda;
+    int mes_agenda;
+    int ano_agenda;
+    int max_consultas_agenda;
+    char primeiro_horario[6];
+    char intervalo_horario[6];
+} DIADAAGENDA;
+
+//Estrutura de nó e lista genérica
 typedef struct No {
     void *dado;
     struct No *proximo;
@@ -58,8 +70,9 @@ typedef struct Lista {
     int tamanho;
 } LISTA;
 
-//CriaÃ§Ã£o e manipulaÃ§Ã£o de lista
+//Criação e manipulação de lista
 LISTA *criarLista();
+static NO *criarNo(void *dado, size_t tamanhoDado);
 bool inserirNoInicio(LISTA *lista, void *dado, size_t tamanhoDado);
 bool inserirNoFim(LISTA *lista, void *dado, size_t tamanhoDado);
 void *removerNoInicio(LISTA *lista);
@@ -69,35 +82,59 @@ void listarElementos(LISTA *lista, void (*imprimir)(void *));
 int tamanhoLista(LISTA *lista);
 void destruirLista(LISTA *lista, void (*liberarDado)(void *));
 
-// FunÃ§Ãµes do menu de paciente/paciente em geral
-void carregarPacientes(LISTA *lista);
+// Funções do menu de paciente/paciente em geral
 void salvarPacientes(LISTA *lista);
-void imprimirPaciente(void *dado);
-void imprimirPaciente2(void *dado);
+void carregarPacientes(LISTA *lista);
 void cadastrarPaciente(LISTA *lista);
 void listarPacientes(LISTA *lista);
-bool compararPacientePorID(void *dado, void *chave);
+void imprimirPaciente(void *dado);
 void editarPaciente(LISTA *lista);
 void removerPaciente(LISTA *lista);
+void consultarDadosPaciente(LISTA *lista);
+void imprimirPaciente2(void *dado);
+bool compararPacientePorID(void *dado, void *chave);
 
-// FunÃ§Ãµes do menu de consulta/consulta em geral
-void carregarConsultas(LISTA *lista);
+// Funções do menu de consulta/consulta em geral
 void salvarConsultas(LISTA *lista);
-void imprimirConsulta(void *dado);
-void imprimirConsulta2(void *dado);
-void cadastrarConsulta(LISTA *lista);
+void carregarConsultas(LISTA *lista);
+void cadastrarConsulta(LISTA *lista, LISTA *lista2);
 void listarConsultas(LISTA *lista);
-bool compararConsultaPorID(void *dado, void *chave);
+void imprimirConsulta(void *dado);
 void editarConsulta(LISTA *lista);
 void removerConsulta(LISTA *lista);
+void consultarDadosConsulta(LISTA *lista);
+void imprimirConsulta2(void *dado);
+bool compararConsultaPorID(void *dado, void *chave);
 
-//FunÃ§Ãµes de menu
+// Funções do menu de agenda medica/agenda em geral
+void salvarAgenda(LISTA *lista);
+void carregarAgenda(LISTA *lista);
+void cadastrarDia(LISTA *lista);
+void listarDias(LISTA *lista);
+void imprimirDias(void *dado);
+bool editarDia(LISTA *lista);
+bool removerDia(LISTA *lista);
+bool compararDias(void *dado, void *chave);
+void criarDiasDoMes(LISTA *lista);
+int diasNoMes(int mes, int ano);
+bool diaExistente(LISTA *lista, int dia, int mes, int ano);
+void listarMesesCadastrados(LISTA *lista);
+void removerDiasDoMes(LISTA *lista);
+void AgendaEmDia(LISTA *lista);
+void criarMeses(LISTA *lista, int mes, int ano);
+void imprimirCalendario(LISTA *listaC, LISTA *listaA, int id_medico);
+void definirCor(LISTA *lista, int dia, int mes, int ano, int diaDaSemana, int consultas);
+int buscarConsultasPorData(LISTA *lista, int dia, int mes, int ano);
+int verificarData(LISTA *lista, int dia, int mes, int ano, int diaDaSemana, int consultas);
+int buscarConsultasPorDataEHorario(LISTA *lista, int dia, int mes, int ano, char *horario);
+
+//Funções de menu
+void setColor(int textColor);
+char controlaEntrada(int *destaque, int num_opcoes);
 void menuRecepcionista();
 void menuPaciente(LISTA *lista);
 void menuListaPacientes(LISTA *lista);
-void menuConsulta(LISTA *lista);
-void menuAgendaMedica(); 
-
-//FUNÃ‡Ã•ES DA AGENDA MÃ‰DICA REMOVIDAS.
+void menuConsulta(LISTA *lista, LISTA *lista2);
+void menuAgendaMedica(LISTA *lista, LISTA *lista2); 
 
 #endif // CONSULTA_H

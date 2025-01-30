@@ -179,7 +179,7 @@ void inserir_usuarios_de_teste() {
   
        Usuario admin = {"admin", "admin123","admin", "010.559.452.89",};
        Usuario medico = {"medico", "medico123", "medico", "010.569.452.89"};
-       Usuario recepcionista =  {"recepcionista", "recep123", "recepcionista", "010.559.452.81"};
+       Usuario recepcionista =  {"recep", "recep123", "recepcionista", "010.559.452.81"};
 
     // gravando os usuarios no arquivo bin
     fwrite(&admin, sizeof(Usuario), 1, arquivo);
