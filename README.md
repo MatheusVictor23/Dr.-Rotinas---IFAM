@@ -6,6 +6,8 @@ Sistema de gerenciamento para clínicas, com o objetivo de tornar a aplicação 
 - Alysson Gabriel
 - Larissa Souza
 - Marcelo Vitor
+- Matheus Victor
+- Silas Salan
   
 ### Para compilar e executar o projeto
 1. Abrir o PowerShell na pasta raíz do projeto
