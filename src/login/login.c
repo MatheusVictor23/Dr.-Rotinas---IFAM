@@ -306,11 +306,11 @@ bool verificar_cpf(char *cpf_informado) {
         remove("../data/usuarios.bin");
         rename("../data/credenciais_temp.bin", "../data/usuarios.bin");
 
-        printf("Senha alterada com sucesso!\n");
+        printf("\nSenha alterada com sucesso!\n");
         return true;
 
     } else {
-        printf("CPF não encontrado.\n");
+        printf("\nCPF não encontrado.\n");
         fclose(credenciais);
         return false;
     }
@@ -347,7 +347,6 @@ bool verificar_usuario(const char *nome_usuario){
     } else {
         fclose(fp);  // Fecha o arquivo após percorrer todo
         puts("### Nome de usuario nao encontrado no sistema ###");
-        getchar();  // Para a entrada do usuário
         finalizar();  // Finaliza a execução
         return false;  // Usuário não encontrado
     }
@@ -527,7 +526,6 @@ void menu(){
 
             case 3:
                 system("cls || clear");
-                getchar();
                 puts("Informe seu nome de usuário para continuar:");
                 printf("-> ");
                 fgets(nome_usuario, sizeof(nome_usuario), stdin);

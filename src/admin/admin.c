@@ -13,8 +13,8 @@
 /*  ----- NOVO MENU DINAMICO ---- */
 
 //Declarar cores como variáveis globais
-int YELLOW = 14;
-int RESET = 7;
+const static int YELLOW = 14;
+const static int RESET = 7;
 
 void static setColor(int textColor){
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -60,14 +60,12 @@ void menuPrincipal() {
     const char *opcoes[] = { // Vetor de opções
         "Medicos",
         "Recepcionistas",
-        "Menu Financeiro",
         "Voltar ao Login"
     };
     
     const char *opcoesDestacadas[] = { // Vetor de opções destacadas
         "> Medico <",
         "> Recepcionistas <",
-        "> Menu Financeiro <",
         "> Voltar ao Login <"
     };
     
@@ -100,10 +98,6 @@ void menuPrincipal() {
                 menuRecepcionistas();
                 break;
             case 2:
-                system("cls || clear");
-                menuFinanceiro();
-                break;
-            case 3:
                 puts("Saindo...\n");
                 menu();
                 break;
