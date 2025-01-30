@@ -9,7 +9,8 @@ Sistema de gerenciamento para clínicas, com o objetivo de tornar a aplicação 
 - Matheus Victor
 - Silas Salan
   
-### Para compilar e executar o projeto
+## Para compilar e executar o projeto (Necessário ter o compilador gcc na máquina)
+
 1. Abrir o PowerShell na pasta raíz do projeto
 
 2. Executar o script de compilação
