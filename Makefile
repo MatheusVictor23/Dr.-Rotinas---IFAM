@@ -5,12 +5,12 @@ TARGET = $(TARGET_DIR)/main
 # Fonte do programa
 SRC_DIR = src
 INCLUDE_DIR = include
-SOURCES = $(SRC_DIR)/main.c $(SRC_DIR)/menu.c $(SRC_DIR)/login.c $(SRC_DIR)/telas.c $(SRC_DIR)/gerenciarMedicos.c
+SOURCES = $(SRC_DIR)/main/main.c  $(SRC_DIR)/login/login.c  $(SRC_DIR)/admin/admin.c $(SRC_DIR)/admin/medicos.c $(SRC_DIR)/admin/recepcionista.c $(SRC_DIR)/medico/prontuario.c $(SRC_DIR)/financeiro/financeiro_inicial.c $(SRC_DIR)/recepcionista/consulta.c
 
 # Compilador e flags
 CC = gcc
-CFLAGS = `pkg-config --cflags gtk+-3.0` -I$(INCLUDE_DIR)
-LDFLAGS = `pkg-config --libs gtk+-3.0`
+# CFLAGS = `pkg-config --cflags gtk+-3.0` -I$(INCLUDE_DIR)
+# LDFLAGS = `pkg-config --libs gtk+-3.0`
 
 # Regra padrão
 all: $(TARGET)
