@@ -39,6 +39,10 @@ int gerarID(){
     return rand() % 1000 + 1; // id entre 1 e 1000
 }
 
+/* -------- NOVO MENU DINAMICO --------- */
+
+
+
 
 void menuMedicos() {
     int op;

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <windows.h>
 #include "../../include/login/login.h"
 #include "../../include/admin/admin.h"
 #include "../../include/medico/prontuario.h"
@@ -21,6 +22,47 @@ typedef struct _user{
     char cpf[15];
 }Usuario;
 
+// MENU DINAMICO COM CORES NO CONSOLE
+
+//Declarar cores como variáveis globais
+const static int YELLOW = 14;
+const static int RESET = 7;
+
+void static setColor(int textColor){
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, textColor);
+}
+
+void static imprimirMenu(const char *opcoes[], const char *opcoesDestacadas[], int num_opcoes, int destaque, int espaco_max) {
+    int i;
+    for (i = 0; i < num_opcoes; i++) {
+        if (i == destaque) {
+        	printf("\t\t|");
+        	setColor(YELLOW);
+            printf("       %-*s  ", espaco_max, opcoesDestacadas[i]); // Imprime opção destacada
+            setColor(RESET);
+            printf("|\n");
+        } else {
+        	setColor(RESET);
+            printf("\t\t|       %-*s  |\n", espaco_max, opcoes[i]); // Imprime opção normal
+        }
+    }
+}
+
+char static controlaEntrada(int *destaque, int num_opcoes) {
+    char ch = getch(); // Captura a tecla pressionada
+    switch (ch) {
+        case 72: // Seta para cima
+            *destaque = (*destaque > 0) ? *destaque - 1 : num_opcoes - 1;
+            break;
+        case 80: // Seta para baixo
+            *destaque = (*destaque < num_opcoes - 1) ? *destaque + 1 : 0;
+            break;
+        case 13: // Enter
+            return *destaque; // Retorna a escolha
+    }
+    return -1; // Nenhuma escolha
+}
 
 // Função para capturar um caractere sem exibir na tela (não bloqueante)
 char get_char_input() {
@@ -155,7 +197,8 @@ void inserir_usuarios_de_teste() {
 bool verificar_login(const char *usuario, const char *senha, const char *cargo_escolhido){
         FILE *fp = fopen("../data/usuarios.bin", "rb");
         if(fp == NULL){
-                printf("Falha ao ler os usuários do arquivo usuarios.bin!\n");
+                printf("\nFalha ao ler os usuários do arquivo usuarios.bin!\n");
+                perror("Erro: ");
                 return false;
         }
 
@@ -338,7 +381,7 @@ void imprimirCredenciais() {
 }
 
 
-void menu(){
+/* void menu(){
     int op;
 
     do {
@@ -413,4 +456,91 @@ void menu(){
     } while (op != 0);
 
 
+} */
+
+void menu(){
+    int destaque = 0; // Opção destacada
+    int escolha = -1;  // Opção escolhida
+    int espaco_max = 23; // Definindo o espaço vázio da caixa, mude se necessário
+
+    const char *opcoes[] = { // Vetor de opções
+        "Admin",
+        "Medico",
+        "Recepcionista",
+        "Esqueci a senha",
+        "Sair do Sistema"
+    };
+
+
+    const char *opcoesDestacadas[] = { // Vetor de opções destacadas
+        "> Admin <",
+        "> Medico <",
+        "> Recepcionista <",
+        "> Esqueci a senha <",
+        "> Sair do Sistema <"
+    };
+
+    int num_opcoes = sizeof(opcoes) / sizeof(opcoes[0]);
+
+    do {
+        system("cls || clear");
+        
+      
+        puts("\t\t+--------------------------------+");
+        puts("\t\t|                                |");
+        puts("\t\t|  BEM VINDO(A) AO DR. ROTINAS   |");
+        puts("\t\t|                                |");
+        puts("\t\t+--------------------------------+");
+        puts("\t\t|      Selecione seu cargo:      |");
+        puts("\t\t|                                |");
+        imprimirMenu(opcoes, opcoesDestacadas, num_opcoes, destaque, espaco_max); // Imprime o menu dinamicamente
+        puts("\t\t|                                |");
+        puts("\t\t|                                |");
+        puts("\t\t+--------------------------------+");
+
+        escolha = controlaEntrada(&destaque, num_opcoes); // Controla a entrada do usuário
+
+        char cargo_escolhido[20];
+        char nome_usuario[50];
+
+        switch (escolha) {
+            case 0:
+                strcpy(cargo_escolhido, "admin");
+                system("cls || clear");
+                puts("Voce escolheu a opcao Admin.");
+                fazer_login(cargo_escolhido);
+                break;
+
+            case 1:
+                strcpy(cargo_escolhido, "medico");
+                system("cls || clear");
+                puts("Você escolheu a opcao Medico.");
+                fazer_login(cargo_escolhido);
+                break;
+
+            case 2:
+                strcpy(cargo_escolhido, "recepcionista");
+                system("cls || clear");
+                puts("Voce escolheu a opcao Recepcionista.");
+                fazer_login(cargo_escolhido);
+                break;
+
+            case 3:
+                system("cls || clear");
+                getchar();
+                puts("Informe seu nome de usuário para continuar:");
+                printf("-> ");
+                fgets(nome_usuario, sizeof(nome_usuario), stdin);
+                nome_usuario[strcspn(nome_usuario, "\n")] = '\0'; // Remove o caractere de nova linha se existir
+                // scanf("%s", nome_usuario);
+                verificar_usuario(nome_usuario);
+                break;
+
+            case 4:
+                puts("Saindo...\n");
+                exit(0);
+
+        }
+        escolha = -1; // Ao voltar ao menu principal, a escolha deve ser resetada
+    } while (escolha != 3);
 }
